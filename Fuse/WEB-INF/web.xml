@@ -1,0 +1,35 @@
+<web-app>
+
+<servlet>
+   <servlet-name>UploadServlet</servlet-name>
+   <servlet-class>UploadServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+   <servlet-name>UploadServlet</servlet-name>
+   <url-pattern>/UploadServlet</url-pattern>
+</servlet-mapping>
+
+<servlet>
+   <servlet-name>ListFiles</servlet-name>
+   <servlet-class>fuse.ListFiles</servlet-class>
+</servlet>
+
+<servlet-mapping>
+   <servlet-name>ListFiles</servlet-name>	
+   <url-pattern>/ListFiles</url-pattern>
+</servlet-mapping>
+
+<servlet>
+   <servlet-name>dbcheck</servlet-name>
+   <servlet-class>fuse.dbcheck</servlet-class>
+</servlet>
+
+<servlet-mapping>
+   <servlet-name>dbcheck</servlet-name>	
+   <url-pattern>/dbcheck</url-pattern>
+</servlet-mapping>
+
+
+
+</web-app>

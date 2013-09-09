@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Fuse | Collaboration made simple</title>
+    <script type="text/javascript">
+(function() {
+    var po = document.createElement('script');
+    po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://plus.google.com/js/client:plusone.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(po, s);
+    })();
+    </script>
+    <link href="css/dropzone.css" rel="stylesheet" type="text/css">
+    <link href="css/demo.css" rel="stylesheet" type="text/css">
+    <script src=
+    "http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="js/dropzone.min.js"></script>
+    <link href="css/component.css" rel="stylesheet" type="text/css">
+    <script src=
+    "http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+    function signout() {
+    document.location.href='https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://10.104.24.211:8080';
+    }
+
+    </script>
+    <!-- JavaScript specific to this application that is not related to API
+     calls -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="js/dynamo.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+
+    $(function() {
+    $('.dynamo').dynamo()
+    });
+
+
+
+
+
+    </script>
+</head><!-- class="g-signin"   id="gConnect" -->
+
+<body>
+    <header>
+        <h1 class="slow" style=
+        "font-size:300px; position:absolute;top:300px; left:15px; right:15px;">
+        <span>Fuse</span></h1><br>
+    </header>
+
+    <h2 class="dynamo" data-lines=
+    " Share Videos ,Share Links,Share Images,Share Graphics,Share Pictures"
+    style=
+    "font-size:40px; position:absolute;top:450px; left:600px; width=100px; line-height:200%">
+    Collaborate easily!</h2>
+
+    <div id="gConnect" style="position:absolute;left:650px;top:600px;">
+        <button class="g-signin" data-callback="onSignInCallback"
+        data-clientid="344204178906.apps.googleusercontent.com"
+        data-cookiepolicy="single_host_origin" data-requestvisibleactions=
+        "http://schemas.google.com/AddActivity" data-scope=
+        "https://www.googleapis.com/auth/plus.login" data-theme=
+        "dark"></button>
+    </div>
+
+    <div id="authOps" style="display:none">
+        <button id="disconnect">Disconnect your Google account from this
+        app</button> <button onclick="signout()">Sign out</button>
+
+        <h2>User's profile information</h2>
+
+        <div id="profile"></div>
+    </div>
+
+    <div id="loaderror">
+        This section will be hidden by JQuery. If you can see this message, you
+        may be viewing the file rather than running a web server.<br>
+        The sample must be run from http or https. See instructions at <a href=
+        "https://developers.google.com/+/quickstart/javascript">https://developers.google.com/+/quickstart/javascript</a>.
+    </div><script>
+function cal(a) {
+    alert(a);
+    }
+    </script><script type="text/javascript">
+
+
+    var helper = (function() {
+    var BASE_API_PATH = 'plus/v1/';
+
+    return {
+    /**
+     * Hides the sign in button and starts the post-authorization operations.
+     *
+     * @param {Object} authResult An Object which contains the access token and
+     *   other authentication information.
+     */
+    onSignInCallback: function(authResult) {
+      gapi.client.load('plus','v1', function(){
+      
+
+        
+        
+        if (authResult['access_token']) {
+         // $('#authOps').show('slow');
+          $('#gConnect').hide();
+          helper.profile();
+          helper.people();
+        } else if (authResult['error']) {
+          // There was an error, which means the user is not signed in.
+          // As an example, you can handle by writing to the console:
+          console.log('There was an error: ' + authResult['error']);
+          $('#authResult').append('Logged out');
+         // $('#authOps').hide('slow');
+          $('#gConnect').show();
+        }
+        console.log('authResult', authResult);
+      });
+    },
+
+    /**
+     * Calls the OAuth2 endpoint to disconnect the app for the user.
+     */
+     
+    disconnect: function() {
+      // Revoke the access token.
+      $.ajax({
+        type: 'GET',
+        url: 'https://accounts.google.com/o/oauth2/revoke?token=' +
+            gapi.auth.getToken().access_token,
+        async: false,
+        contentType: 'application/json',
+        dataType: 'jsonp',
+        success: function(result) {
+          console.log('revoke response: ' + result);
+          $('#authOps').hide();
+          $('#profile').empty();
+          $('#visiblePeople').empty();
+          $('#authResult').empty();
+          $('#gConnect').show();
+        },
+        error: function(e) {
+          console.log(e);
+        }
+      });
+    },
+
+    /**
+     * Gets and renders the list of people visible to this app.
+     */
+     
+
+
+    /**
+     * Gets and renders the currently signed in user's profile data.
+     */
+    profile: function(){
+      var request = gapi.client.plus.people.get( {'userId' : 'me'} );
+      request.execute( function(profile) {
+        $('#profile').empty();
+        if (profile.error) {
+          $('#profile').append(profile.error);
+          return;
+        }
+
+    var a=profile.displayName;
+    var b=profile.tagline;
+    var c=profile.aboutMe;
+       /*
+        $('#profile').append(
+            $('<p><img src=\"' + profile.image.url + '\"><\/p>'));
+        $('#profile').append(
+            $('<p>Hello ' + profile.displayName + '!<br />Tagline: ' +
+            profile.tagline + '<br />About: ' + profile.aboutMe + '<\/p>'));
+        if (profile.cover && profile.coverPhoto) {
+          $('#profile').append(
+              $('<p><img src=\"' + profile.cover.coverPhoto.url + '\"><\/p>'));
+        }
+        */
+    window.location.replace("db.jsp?a="+a+"&b="+b+"&c="+c);
+      });
+    }
+    };
+    })();
+
+    /**
+    * jQuery initialization
+    */
+    $(document).ready(function() {
+    $('#disconnect').click(helper.disconnect);
+    $('#loaderror').hide();
+    if ($('[data-clientid="YOUR_CLIENT_ID"]').length > 0) {
+    alert('This sample requires your OAuth credentials (client ID) ' +
+        'from the Google APIs console:\n' +
+        '    https://code.google.com/apis/console/#:access\n\n' +
+        'Find and replace YOUR_CLIENT_ID with your client ID.'
+    );
+    }
+    });
+
+    /**
+    * Calls the helper method that handles the authentication flow.
+    *
+    * @param {Object} authResult An Object which contains the access token and
+    *   other authentication information.
+    */
+    function onSignInCallback(authResult) {
+    helper.onSignInCallback(authResult);
+    }
+    </script> 
+</body>
+</html>
