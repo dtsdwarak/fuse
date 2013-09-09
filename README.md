@@ -1,7 +1,7 @@
 Fuse
 ====
 
-Fuse is a Collaboration softare Framework.
+Fuse is a Collaboration software Framework.
 
 1. Import fuse.sql into your SQL DB. ==> mysql -u root -p fuse<fuse.sql; Use mysql db connector. Else database access to MySQL DB won't be possible.
 2. Change MYSQL Access Passwords in db.jsp, dbcheck.java to your MySQL database and passwords.
